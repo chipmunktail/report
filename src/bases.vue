@@ -1,11 +1,15 @@
 <template>
     <div id="bases">
-        <router-view></router-view>
+        <container></container>
+        <!--<router-view></router-view>-->
     </div>
 </template>
 
 <script>
+    import Container from './components/container.vue'
+
     export default {
+        components: {Container},
         name: 'bases'
     }
 </script>

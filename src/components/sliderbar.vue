@@ -1,14 +1,17 @@
 <template>
     <div id="sliderbar">
-        <span v-for="n in items">
+        <span v-for="n in items" class="yjkbs">
             <router-link to="yjkb" v-bind:to=n.to> {{n.name}} </router-link>
         </span>
-        <!--<slot name="yjkb"></slot>-->
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+    import Yjkb from './lszt/yjkb.vue'
+
     export default {
+        components: {Yjkb},
         name: 'sliderbar',
         data(){
             return{
@@ -21,5 +24,13 @@
 <style scoped>
     #sliderbar {
 
+    }
+    .yjkbs{
+        display: inline-block;
+        height: 30px;
+        line-height: 30px;
+        padding: ;
+        box-shadow: 0 0 1px #000;
+        background-color: #ffffff;
     }
 </style>
