@@ -9,7 +9,7 @@
 
 <script>
     import Yjkb from './lszt/yjkb.vue'
-
+    import Bus from '../assets/bus.js'
     export default {
         components: {Yjkb},
         name: 'sliderbar',
@@ -17,6 +17,11 @@
             return{
                 items: [{name: '业绩看板', to: 'yjkb'}, {name: '区域排行', to: 'phs'}, {name: '全国区域', to: 'qgs'}]
             }
+        },
+        created(){
+            Bus.$on('change',function (val) {
+                console.log(val+'666')
+            })
         }
     }
 </script>

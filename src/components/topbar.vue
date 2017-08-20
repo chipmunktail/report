@@ -29,6 +29,7 @@
 </template>
 
 <script>
+    import Bus from '../assets/bus.js'
     export default {
         name: 'topbar',
         data () {
@@ -49,6 +50,7 @@
         },
         methods:{
             showit(val){
+                Bus.$emit('change',val)
                 this.show3 = false
                 this.msg=val
             }
