@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import Bus from '../assets/bus.js'
+    import Vuex from 'vuex'
     export default {
         name: 'topbar',
         data () {
@@ -50,7 +50,6 @@
         },
         methods:{
             showit(val){
-                Bus.$emit('change',val)
                 this.show3 = false
                 this.msg=val
             }
@@ -64,7 +63,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .topbar{
-        position: relative;
+        position: fixed;
+        z-index: 10;
         top:0;
         background-color: #ef4f4f;
         width: 100%;
