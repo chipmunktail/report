@@ -4,6 +4,8 @@ import Hello from '@/components/Hello'
 import topbar from '@/components/topbar'
 import sliderbar from '@/components/sliderbar'
 import ls from '@/components/lszt/ls'
+import phs from '@/components/lszt/phs'
+import qgs from '@/components/lszt/qgs'
 import xs from '@/components/xszt/xs'
 
 Vue.use(Router)
@@ -15,7 +17,6 @@ export default new Router({
       name: 'Hello',
       component: Hello
     },
-
     {
       path: '/bar/',
       component: Hello,
@@ -23,6 +24,14 @@ export default new Router({
         {
           path:'ls',
           component:ls
+        },
+        {
+          path:'phs/:id',
+          component:phs
+        },
+        {
+          path:'qgs/:id',
+          component:qgs
         },
         {
           path:'xs',

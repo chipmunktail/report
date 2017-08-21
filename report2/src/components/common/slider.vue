@@ -1,15 +1,15 @@
 <template>
-  <div class="ls">
+  <div class="xs">
     <h1>{{ msg }}</h1>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'ls',
+    name: 'xs',
     data () {
       return {
-        msg: 'ls'
+        msg: 'xs'
       }
     }
   }
@@ -19,10 +19,5 @@
 <style scoped>
   h1 {
     font-weight: normal;
-  }
-  .ls{
-    background-color: #93c8ff;
-    width: 100%;
-    height: 100px;
   }
 </style>

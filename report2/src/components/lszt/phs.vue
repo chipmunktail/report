@@ -1,15 +1,16 @@
 <template>
-  <div class="ls">
+  <div class="phs">
     <h1>{{ msg }}</h1>
+    <h1>{{ $route.params.id }}</h1>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'ls',
+    name: 'phs',
     data () {
       return {
-        msg: 'ls'
+        msg: 'phs'
       }
     }
   }
@@ -20,8 +21,8 @@
   h1 {
     font-weight: normal;
   }
-  .ls{
-    background-color: #93c8ff;
+  .phs{
+    background-color: #9eb6ff;
     width: 100%;
     height: 100px;
   }
