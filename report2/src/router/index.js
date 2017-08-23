@@ -6,7 +6,7 @@ import sliderbar from '@/components/sliderbar'
 import ls from '@/components/lszt/ls'
 import phs from '@/components/lszt/phs'
 import qgs from '@/components/lszt/qgs'
-import xs from '@/components/xszt/xs'
+import fhzb from '@/components/xszt/fhzb'
 
 Vue.use(Router)
 
@@ -15,14 +15,15 @@ export default new Router({
     {
       path: '/',
       name: 'Hello',
-      component: Hello
+      component: Hello,
+      redirect:'/bar/ls/8a8a81ab5b1da5cf015b226cddf603cd'
     },
     {
       path: '/bar/',
       component: Hello,
       children:[
         {
-          path:'ls',
+          path:'ls/:id',
           component:ls
         },
         {
@@ -34,8 +35,8 @@ export default new Router({
           component:qgs
         },
         {
-          path:'xs',
-          component:xs
+          path:'fhzb/:id',
+          component:fhzb
         }
       ]
     }

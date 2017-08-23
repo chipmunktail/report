@@ -11,9 +11,9 @@
     </yd-tab>
 
     <div class="hslider">
-      <i v-for='n in to' :key="n.name" :label="n.name" class="btn">
+      <div v-for='n in to' :key="n.name" :label="n.name" class="btn">
         <router-link :to="n.link">{{n.name}}</router-link>
-      </i>
+      </div>
     </div>
 
     <router-view class="hs-touch"></router-view>
@@ -30,35 +30,42 @@
       return {
         msg: 'sliderbar',
         to: [
-          {link: "/bar/ls", name: 'ls'},
-          {link: "/bar/phs/dppm", name: 'dppm'},
-          {link: "/bar/phs/rmcp", name: 'rmcp'},
-          {link: "/bar/qgs/qgqy", name: 'qgqy'},
-          {link: "/bar/qgs/qgdb", name: 'qgdb'}
+          {link: "/bar/ls/8a8a81ab5b1da5cf015b226cddf603cd", name: 'ls'},
+          {link: "/bar/phs/40288a4e58f59d970158f7285d6f028b", name: 'dppm'},
+          {link: "/bar/phs/40288a4e58fb1d450158fc7c831401e5", name: 'rmcp'},
+          {link: "/bar/qgs/8a8a81a95a63e115015a68ea3bad007b", name: 'qgqy'},
+          {link: "/bar/qgs/8a8a81a95a63e115015a68f1ed24007d", name: 'qgdb'}
         ]
       }
     },
     mounted() {
       let o = this;
-      Bus.$on('change', val=> {
-
-        o.to = [
-          {link: "/bar/qgs/qgqy", name: 'qgqy'},
-          {link: "/bar/phs/dppm", name: 'dppm'},
-          {link: "/bar/ls", name: 'ls', html: 'val'}
-        ]
+      Bus.$on('change', val => {
+        if (val === 'lszt') {
+          o.to = [
+            {link: "/bar/ls/8a8a81ab5b1da5cf015b226cddf603cd", name: 'ls'},
+            {link: "/bar/phs/40288a4e58f59d970158f7285d6f028b", name: 'dppm'},
+            {link: "/bar/phs/40288a4e58fb1d450158fc7c831401e5", name: 'rmcp'},
+            {link: "/bar/qgs/8a8a81a95a63e115015a68ea3bad007b", name: 'qgqy'},
+            {link: "/bar/qgs/8a8a81a95a63e115015a68f1ed24007d", name: 'qgdb'}
+          ]
+        } else if (val === 'xszt') {
+          o.to = [
+            {link: "/bar/fhzb/8a8a815e589911170158bdf7ba640013", name: 'fhzb'}
+          ]
+        }
       })
 
 //--------左右滑动-------
       let s, es;
-      $('.h-touch').on('touchstart', e=> {
+      $('.h-touch').on('touchstart', e => {
         let _touch = e.originalEvent.targetTouches[0];
         s = [_touch.pageY, _touch.pageX]
-      }).on('touchend', e=> {
+      }).on('touchend', e => {
         let touch = e.originalEvent.changedTouches[0];
         es = [touch.pageY, touch.pageX]
       });
-      $('#tab').on('touchend',  ()=> {
+      $('#tab').on('touchend', () => {
         let res = s[0] - es[0],
           sz = 70 > res && res > -70
         if (sz && s[1] < es[1]) {
@@ -69,11 +76,36 @@
       })
 //--------左右滑动-------
 
-
+//      let l, r;
+//      $('.hs-touch').on('touchstart', e => {
+//        let _touch = e.originalEvent.targetTouches[0];
+//        l = [_touch.pageY, _touch.pageX]
+//      }).on('touchend', e => {
+//        let touch = e.originalEvent.changedTouches[0];
+//        r = [touch.pageY, touch.pageX]
+//        //----------------------------
+//        let lr = l[0] - r[0],
+//          c = 70 > lr && lr > -70
+//        if (c && l[1] < r[1]) {
+//          let num = (n) => {
+//            for (let i = 0; i < this.to.length; i++) {
+//              if (this.to[this.to.length - 1] === n) {
+//                return 'rs'
+//              }
+//              if (this.to[i].name === n) {
+//                return this.to[i + 1].name
+//              }
+//            }
+//          };
+//          console.log('r')
+//        } else if (c && l[1] > r[1]) {
+//          console.log('l')
+//        }
+//      });
     },
     watch: {
       to(newval, oldval) {
-        console.log(this.to[0].link)
+        this.$router.push({path: newval[0].link})
       }
     }
 
@@ -85,17 +117,31 @@
   h1 {
     font-weight: normal;
   }
-
+  #tab{
+    display: none;
+    position: fixed;
+    top: 40px;
+    width: 100%;
+  }
   .hslider {
+    position: fixed;
+    top: 40px;
     width: 100%;
     height: 20px;
     background-color: #b6e2ff;
     white-space: nowrap;
     overflow: scroll
   }
-  .btn{
-    background-color: #3e79b5;
-    display: inline-block;
-    margin: 0 5px 0 5px;
+  .hs-touch{
+    margin-top: 26px;
   }
+  .btn {
+    height: 20px;
+    background-color: #3e79b5;
+    color: #ffffff;
+    display: inline-block;
+    margin: 0 0.5px 0 0.5px;
+    border-radius: 0;
+  }
+
 </style>

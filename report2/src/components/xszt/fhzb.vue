@@ -1,20 +1,18 @@
 <template>
-  <div class="ls">
+  <div class="fhzb">
     <h1>{{ msg }}</h1>
     <h1>{{ $route.params.id }}</h1>
     <span>数据：</span>
     <p>{{datas}}</p>
-    <div class="htmlHere"></div>
   </div>
 </template>
 
 <script>
-
   export default {
-    name: 'ls',
+    name: 'fhzb',
     data () {
       return {
-        msg: 'ls',
+        msg: 'fhzb',
         datas:''
       }
     },
@@ -26,10 +24,11 @@
     },
     methods:{
       fetchData(){
-        $.get('/static/ls.html',{},re=>{
-          $('.htmlHere').append(re)
-        })
-      },
+        $.get('http://10.10.1.43:443/pages/sysb/SysbQuery/p.do?fidSysbquery=8a8a815e589911170158bdf7ba640013&time=1503367412584',
+          {},res=>{
+            this.datas=res;
+          },'json')
+      }
     }
   }
 </script>
@@ -38,9 +37,5 @@
 <style scoped>
   h1 {
     font-weight: normal;
-  }
-  .ls{
-      width: 100%;
-    height: auto;
   }
 </style>

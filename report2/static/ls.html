@@ -1,0 +1,592 @@
+
+
+<head>
+  <meta charset="utf-8"/>
+  <title></title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+  <script src="http://10.10.1.43:443/app/js/jquery/jquery-1.9.1.min.js"></script>
+  <script src="../static/jquery.cookie.js"></script>
+  <script src="../static/url.js"></script>
+
+  <script src="https://code.highcharts.com/highcharts.js" type="text/javascript" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="http://10.10.1.43:443/app/js/main.css"/>
+  <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/ionic/1.3.2/js/ionic.bundle.min.js"/>
+</head>
+<!--业绩看板-->
+<body>
+<div id="retail1" find="no">
+  <style>
+    #retail1 div {
+      white-space: nowrap;
+    }
+  </style>
+  <i style="display: none;"></i>
+  <div class="row" id="titlex" style=" color: #F8E6E8;margin-right: 0px;margin-left: 0px; padding: 0px;">
+    <div class="col-67 " style="background-color: #BD2333;">
+      <div class="row">
+        <div class="col col-50" style="padding-left: 10%; font-size: 1.3em;">零售额</div>
+        <div class="col col-30 col-offset-70" style="padding-left: 10%; ">全部&nbsp;<i id="sc"></i>（家）
+        </div>
+      </div>
+      <div class="row" style="height: 40px;">
+        <div class="col col-50" style="font-size: 2.2em;padding-left: 20%;" id="total"></div>
+      </div>
+      <div class="row">
+        <div id="jxs" class="col col-50" style="padding-left: 20%;"></div>
+      </div>
+    </div>
+    <div class="col-33" style="background-color: #A7202D;">
+      <div class="row">
+        <div class="col" style="padding-left: 30%;">直营&nbsp;<i id="zy"></i>(家)
+          <div id="zy_je"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" style="padding-left: 30%; ">加盟&nbsp;<i id="jm"></i>(家)
+          <div id="jm_je"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div style="height: 30px;color: #BD2333;">
+    <span style="padding-left: 10%;"><span id="retail1_day">2016 12-17 星期六</span></span>
+    <span style="padding-left: 20%;">达成率<span id="ir"></span>%</span>
+  </div>
+  <div class="btn-group btn-group-justified item" id="btns"
+       style="border: hidden;padding-bottom: 0px;padding-top: 0px;">
+    <div class="btn-group">
+      <button type="button" key="tot_qty_day" xAxis="xAxisDay" tips="tipDay" titles="titleDay"
+              class="btn btn-default active" name="btn1">日
+      </button>
+    </div>
+    <div class="btn-group">
+      <button type="button" key="tot_qty_week" xAxis="xAxisWeek" tips="tipWeek" titles="titleWeek"
+              class="btn btn-default" name="btn1">周
+      </button>
+    </div>
+    <div class="btn-group">
+      <button type="button" key="tot_qty_month" xAxis="xAxisMonth" tips="tipMonth" titles="titleMonth"
+              class="btn btn-default" name="btn1">月
+      </button>
+    </div>
+    <div class="btn-group" id="group_year">
+      <button type="button" class="btn btn-default " name="btn" value="year" data="year" id="year">年</button>
+    </div>
+
+    <div class="btn-group" style="width: 30px;">
+      <a id="retailSearch" class="btn btn-default" style="padding: 6px 0px;" data-toggle="modal"
+         data-target="#myModal">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </a>
+    </div>
+  </div>
+  <br>
+
+
+  <div id="fade" class="black_overlay card"></div>
+  <div id="light" class="white_content">
+    <form class="form-horizontal" role="form">
+      <fieldset>
+        <p>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="jxsName" id="namesd">经销商</label>
+          <div class="col-sm-4">
+            <input class="form-control" id="jxsName" type="text" placeholder="请输入查询条件......"/>
+          </div>
+        </div>
+
+      </fieldset>
+      <div id="reuk" style="display: none;"></div>
+      <button type="button" class="btn btn-default" id="close">关闭</button>
+      <button onclick="jxsSearch()" type="button" class="btn btn-success">查询</button>
+    </form>
+  </div>
+
+
+
+
+  <div class="item charts" id="chartxl1" style="height:300px;border: hidden;padding-top: 0px; ">
+  </div>
+  <br/>
+  <div id="bbWithCharts">
+    <div id="bb">
+      <div class="row" style="margin: 0px;">
+        <div class="col col-33 col-offset-10">
+          <label>与上周同期比</label>
+        </div>
+        <div class="col col-33 col-offset-10">
+          <label>与昨日同比</label>
+        </div>
+      </div>
+      <div class="row" style="margin: 0px;">
+        <div class="col col-33 col-offset-10">
+          <span class="label label-default" id="tbValue" style="font-size: large;"></span>
+        </div>
+        <div class="col col-33 col-offset-10">
+          <span class="label label-default" id="hbValue" style="font-size: large;"></span>
+        </div>
+      </div>
+    </div>
+    <div id="retail1_AllCharts">
+      <div class="item charts" id="retail1_chart1" style="height:300px;border: hidden;padding-top: 0px;">
+      </div>
+      <br>
+      <div class="item charts" id="retail1_chart2" style="height:300px;border: hidden;padding-top: 0px;">
+      </div>
+      <br><br>
+    </div>
+  </div>
+  <a data-v-cc0140ba="" href="#/bar/qgs/8a8a81a95a63e115015a68ea3bad007b" class="">xxxxx</a>
+</div>
+</body>
+
+<script type="text/javascript">
+  let url_yjkb_day="/pages/sysb/SysbQuery/p.do?fidSysbquery=8a8a815e589911170158bdf7ba640013&time=" + new Date().getTime();
+  btnActive1();
+  toSearch();
+  function btnActive1() {
+    $("#retail1").find("#btns").find("button").click(function () {
+      $("#retail1").find("#btns").find("button").each(function () {
+        $(this).removeClass("active");
+      });
+      $(this).addClass("active");
+      $("#retail1").find("#bbWithCharts").css("display", "");
+      if ($(this).html() == "日") {
+        getData1(url_yjkb_day, "日", "一周");
+      } else if ($(this).html() == "周") {
+        getData1(url_yjkb_week, "周", "一月");
+      } else if ($(this).html() == "月") {
+        getData1(url_yjkb_month, "月", "半年");
+      } else if ($(this).html() == "年") {
+        $("#retail1").find("#bbWithCharts").css("display", "none"); // 年份不显示 同环比 及图表数据
+        getData1(url_yjkb_year, "年", "历年");
+      }
+    });
+  }
+
+  function toSearch() {
+    $("#retail1").find("#retailSearch").click(function () {
+      $("#retail1").find("#light").css("display", "block");
+      $("#retail1").find("#fade").css("display", "block");
+      var urls = $("#retail1").find("#btns").attr("urls");
+      var betwn = $("#retail1").find("#btns").attr("betwn");
+      var title = $("#retail1").find("#btns").attr("title");
+      $("#retail1").find("#reuk").attr("urls", urls);
+      $("#retail1").find("#reuk").attr("betwn", betwn);
+      $("#retail1").find("#reuk").attr("title", title);
+    });
+    $("#retail1").find("#close,#fade").click(function () {
+      retail1ModalClose();
+    });
+  }
+
+  function jxsSearch() {
+    var jxsName = $("#retail1").find("#jxsName").val();
+    var urls = $("#retail1").find("#reuk").attr("urls");
+    var betwn = $("#retail1").find("#reuk").attr("betwn");
+    var title = $("#retail1").find("#reuk").attr("title");
+    var param = "&pageValue=" + jxsName;
+    $.cookie("pp", param);
+    retail1ModalClose();
+    getData1(urls, title, betwn, param);
+
+  }
+
+  function retail1ModalClose() {
+    $("#retail1").find("#light").css("display", "none");
+    $("#retail1").find("#fade").css("display", "none");
+  }
+  getData1(url_yjkb_day, "日", "一周", '');
+
+  function getDa() {
+    var d = new Date();
+    var year = d.getFullYear();
+    var month = d.getMonth() + 1;
+    month = month < 10 ? "0" + month : month;
+    var day = d.getDate();
+    day = day < 10 ? "0" + day : day;
+    var dat = year + month + day;
+    return dat;
+  }
+  function getData1(urls, title, betwn, param) {
+    $("#retail1").find("#btns").attr({"urls": urls, "betwn": betwn, "title": title});
+    var billdate = new Array();
+    var totAmtActual = new Array();
+    var totqty = new Array();
+    var jmCount = new Array();
+    var zyCount = new Array();
+    var indicatorRate = new Array();
+    var storeCount = new Array();
+    var m = new Array();
+    var pp = $.cookie("pp");
+    if (param) {
+      urls += param;
+    } else if (pp) {
+      urls += pp;
+      param = pp;
+    }
+    console.log(urls);
+    $.ajax({
+      type: "POST",
+      url: urls,
+      dataType: "json",
+      success: function (data) {
+        var p;
+        for (i = 0; i < data.result.length; i++) {
+          p = data.result[i];
+          billdate[i] = p.billdate;
+          totAmtActual[i] = p.totAmtActual;
+          totqty[i] = p.qty / 100;
+          jmCount[i] = p.jmCount;
+          zyCount[i] = p.zyCount;
+          indicatorRate[i] = p.indicatorRate;
+          storeCount[i] = p.storeCount;
+          if (i == data.result.length - 1) {
+            $("#total").html((totAmtActual[i]) + "万");
+            $("#sc").html(storeCount[i]);
+            $("#zy").html(zyCount[i]);
+            $("#jm").html(jmCount[i]);
+            $("#ir").html(indicatorRate[i]);
+            $("#zy_je").html((p.zyActual) + "万");
+            $("#jm_je").html((p.jmActual) + "万");
+            $("#retail1_day").html(p.days);
+          }
+        }
+        var option = {
+          title: {
+            left: 'center',
+            text: '每' + title + '销售总额(万/百双)',
+            subtext: '最近' + betwn + '数据'
+
+          },
+          backgroundColor: '#eee',
+          color: [colors],
+          legend: {
+            data: ['金额', '数量'],
+            orient: 'vertical',
+            left: 'right'
+          },
+          grid: {
+            left: '1%',
+            right: '1%',
+            bottom: '1%',
+            containLabel: true
+          },
+          xAxis: [{
+            type: 'category',
+            data: billdate,
+
+            axisTick: {
+              alignWithLabel: true
+            }
+          }],
+          yAxis: [{
+            type: 'value'
+
+          }
+          ],
+          series: [{
+            name: '金额',
+            type: 'bar',
+            barWidth: '60%',
+            data: totAmtActual,
+            label: {
+              normal: {
+                show: true,
+                position: 'top'
+              }
+            }
+          },
+            {
+              name: '数量',
+              type: 'line',
+              barWidth: '60%',
+              data: totqty,
+              label: {
+                normal: {
+                  show: true,
+                  position: 'top'
+                }
+              }
+            }
+          ]
+        };
+        var chartContainer = document.getElementById("chartxl1");
+        var myChart = echarts.init(chartContainer);
+        myChart.setOption(option);
+        $("#jxs").html(pp ? pp.substr(11) : '');
+        myChart.on('click', function (params) {
+          $.each(data.result[params.dataIndex], function (key, value) {
+            m[key] = value;
+          });
+          $("#total").html((m.totAmtActual) + "万");
+          $("#sc").html(m.storeCount);
+          $("#zy").html(m.zyCount);
+          $("#jm").html(m.jmCount);
+          $("#zy_je").html((m.zyActual) + "万");
+          $("#jm_je").html((m.jmActual) + "万");
+          $("#ir").html(m.indicatorRate);
+          $("#retail1_day").html(m.days);
+          retailGetData(data.result[params.dataIndex], param);
+        });
+        retailGetData(data.result[data.result.length - 1], param);
+      },
+      error: function (xhr, textStatus) {
+        console.log("没有数据");
+      }
+    });
+  }
+  function retailGetData(tdata, param) {
+    var todayTotAmtActual = new Array();
+    var todayQty = new Array();
+    var yesTotAmtActual = new Array();
+    var yesQty = new Array();
+    var key = $("#retail1").find("#btns").find(".active").attr("key");
+    var b = $("#retail1").find("#btns").find(".active");
+    var dates = tdata.timeGk;
+    if (!dates && !key) {
+      $("#retail1").find("#retail1_AllCharts").css("display", "none");
+      $("#retail1").find("#bb").css("display", "none");
+      return;
+    } else {
+      $("#retail1").find("#retail1_AllCharts").css("display", "");
+    }
+
+    var urls = domain + queryUrl + eval("urlJson." + key) + "&date=" + dates + "&pageSize=32&time=" + new Date().getTime() + "&";
+    if (param) {
+      urls += param;
+    }
+    $.ajax({
+      type: "POST",
+      url: urls,
+      dataType: "json",
+      success: function (data) {
+        var zMonth = new Array();
+        var p = data.result;
+        var length = p.length;
+        b.attr("yes", p[0].yesBilldate);
+        b.attr("tod", p[0].todBilldate);
+        var yesDay = parseInt(dates) - 100;
+        var todDay = dates;
+        zMonth[0] = ' ';
+        for (var i = 0; i < length; i++) {
+          if (p[i].todayQty >= 0) {
+            todayQty[i + 1] = p[i].todayQty;
+            todayTotAmtActual[i + 1] = p[i].todayTotAmtActual;
+          }
+          yesQty[i + 1] = p[i].qty;
+          yesTotAmtActual[i + 1] = p[i].totAmtActual;
+          zMonth[i + 1] = p[i].yesBilldate;
+        }
+        var retail1_getJson = {
+          "xAxisDay": [' ', '09点', '11点', '13点', '15点', '17点', '19点', '21点', '24点'],
+          "titleDay": ['日销售金额(万)', '日销售数量(双)'],
+          "tipDay": [b.attr("tod") + ' 金额', b.attr("yes") + ' 金额', b.attr("tod") + ' 数量', b.attr("yes") + ' 数量'],
+          "xAxisWeek": [' ', '周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+          "titleWeek": ['周销售金额(万)', '周销售数量(双)'],
+          "tipWeek": [b.attr("tod") + '金额', b.attr("yes") + '金额', b.attr("tod") + '数量', b.attr("yes") + '数量'],
+          "xAxisMonth": zMonth,
+          "titleMonth": ['月销售金额(万)', '月销售数量(双)'],
+          "tipMonth": [todDay + '金额', yesDay + '金额', todDay + '数量', yesDay + '数量']
+        }
+        var xAxisArray = eval("retail1_getJson." + b.attr("xAxis"));
+        var tips = eval("retail1_getJson." + b.attr("tips"));
+        var titles = eval("retail1_getJson." + b.attr("titles"));
+        var option2 = {
+          title: {
+            left: 'left',
+            text: titles[0]
+          },
+          legend: {
+            data: tips,
+            left: 'right',
+            orient: 'vertical'
+          },
+
+          grid: {
+            left: '0%',
+            right: '4%',
+            bottom: '1%',
+            containLabel: true
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: xAxisArray,
+            axisPointer: {
+              type: 'shadow'
+            },
+            axisTick: {
+              alignWithLabel: true
+            }
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            name: tips[0],
+            type: 'line',
+            data: todayTotAmtActual,
+            label: {
+              normal: {
+                show: true,
+                position: 'top'
+              }
+            },
+            lineStyle: {
+              normal: {
+                color: "orangered"
+              }
+            }
+          }, {
+            name: tips[1],
+            type: 'line',
+            data: yesTotAmtActual,
+            label: {
+              normal: {
+                show: true,
+                position: 'top'
+              }
+            },
+            lineStyle: {
+              normal: {
+                color: "#ccc"
+              }
+            }
+          }]
+        };
+
+        var option3 = {
+          title: {
+            left: 'left',
+            text: titles[1]
+          },
+          legend: {
+            data: tips,
+            left: 'right',
+            orient: 'vertical'
+
+          },
+          grid: {
+            left: '0%',
+            right: '4%',
+            bottom: '1%',
+            containLabel: true
+          },
+
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: xAxisArray,
+            axisPointer: {
+              type: 'shadow'
+            },
+            axisTick: {
+              alignWithLabel: true
+            }
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            name: tips[2],
+            type: 'line',
+            data: todayQty,
+            label: {
+              normal: {
+                show: true,
+                position: 'top'
+              }
+            },
+            lineStyle: {
+              normal: {
+                color: "orangered"
+              }
+            }
+          }, {
+            name: tips[3],
+            type: 'line',
+            data: yesQty,
+            label: {
+              normal: {
+                show: true,
+                position: 'top'
+              }
+            },
+            lineStyle: {
+              normal: {
+                color: "#ccc"
+              }
+            }
+          }]
+        };
+        var chartContainer2 = document.getElementById("retail1_chart1");
+        var myChart2 = echarts.init(chartContainer2);
+        myChart2.setOption(option2);
+        var chartContainer3 = document.getElementById("retail1_chart2");
+        var myChart3 = echarts.init(chartContainer3);
+        myChart3.setOption(option3);
+        var btnName = $("#retail1").find("#btns").find(".active").html();
+        if (btnName == "日") {
+          $("#retail1").find("#bb").css("display", "");
+          getBB(dates, param);
+        } else {
+          $("#retail1").find("#bb").css("display", "none");
+        }
+      },
+      error: function () {
+      }
+    });
+  }
+
+  function getBB(dates, param) {
+    var urls = domain + queryUrl + eval("urlJson.tot_bb_day") + "&date=" + dates + "&time=" + new Date().getTime() + "&";
+    if (param) {
+      urls += param;
+    }
+    $.ajax({
+      type: "POST",
+      url: urls,
+      dataType: "json",
+      success: function (data) {
+        var p = data.result;
+        var tb = $("#retail1").find("#tbValue");
+        var hb = $("#retail1").find("#hbValue");
+        if (p[0].hbRate && p[0].tbRate) {
+          hb.html(p[0].hbRate + '%');
+          tb.html(p[0].tbRate + '%');
+          if (parseFloat(p[0].tbRate) >= 0) {
+            tb.attr("class", "label label-danger");
+          } else {
+            tb.attr("class", "label label-success");
+          }
+          if (parseFloat(p[0].hbRate) >= 0) {
+            hb.attr("class", "label label-danger");
+          } else {
+            hb.attr("class", "label label-success");
+          }
+        }
+      },
+      error: function () {
+
+      }
+    });
+  }
+
+
+  var ic = 0;
+
+  function colors() {
+    var colorList = [
+      'lightskyblue', 'coral', '#27727B', '#264E86', '#7ac7c4', '#3b4a6b',
+      '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD', '#b74242',
+      '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0', '#104455'
+    ];
+    ic++;
+    if (ic > 3) ic = 0;
+    return colorList[ic]
+  }
+</script>
+

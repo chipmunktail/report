@@ -18,11 +18,87 @@
       </yd-button>
     </yd-popup>
 
-    <yd-popup v-model="show4" position="right" width="100%">
-      <span>开始时间</span><input type="date">
-      <br>
-      <span>结束时间</span><input type="date">
-      <yd-button type="danger" @click.native="show4 = false" class="closed">关闭搜索</yd-button>
+    <yd-popup v-model="show4" position="right" width="80%" class="silderbar-c">
+      <yd-accordion accordion style="margin-bottom: 30px">
+        <yd-accordion-item title="选择时间" open>
+            <yd-cell-item arrow>
+              <span slot="left">开始时间：</span>
+              <yd-datetime type="date" v-model="datetime1" slot="right"></yd-datetime>
+            </yd-cell-item>
+            <yd-cell-item arrow>
+              <span slot="left">结束时间：</span>
+              <yd-datetime type="date" v-model="datetime2" slot="right"></yd-datetime>
+            </yd-cell-item>
+        </yd-accordion-item>
+        <yd-accordion-item title="选择经销商" open>
+          <yd-cell-item type="checkbox">
+            <span slot="left">杭州总经销商</span>
+            <input slot="right" type="checkbox" value="杭州总经销商" v-model="jxs"/>
+          </yd-cell-item>
+
+          <yd-cell-item type="checkbox">
+            <span slot="left">合肥总经销商</span>
+            <input slot="right" type="checkbox" value="合肥总经销商" v-model="jxs"/>
+          </yd-cell-item>
+
+          <yd-cell-item type="checkbox">
+            <span slot="left">路桥总经销商</span>
+            <input slot="right" type="checkbox" value="路桥总经销商" v-model="jxs"/>
+          </yd-cell-item>
+
+          <yd-cell-item>
+            <span slot="left">选中的经销商数量：</span>
+            <span slot="right">{{jxs.length}}</span>
+          </yd-cell-item>
+        </yd-accordion-item>
+        <yd-accordion-item title="商品大类" open>
+          <yd-cell-item type="checkbox">
+            <span slot="left">鞋</span>
+            <input slot="right" type="checkbox" value="鞋" v-model="checkedNames3"/>
+          </yd-cell-item>
+          <yd-cell-item type="checkbox">
+            <span slot="left">包</span>
+            <input slot="right" type="checkbox" value="包" v-model="checkedNames3"/>
+          </yd-cell-item>
+          <yd-cell-item type="checkbox">
+            <span slot="left">其他</span>
+            <input slot="right" type="checkbox" value="其他" v-model="checkedNames3"/>
+          </yd-cell-item>
+        </yd-accordion-item>
+        <yd-accordion-item title="商品年份" open>
+          <yd-cell-item type="checkbox">
+            <span slot="left">2017</span>
+            <input slot="right" type="checkbox" value="2017" v-model="checkedNames4"/>
+          </yd-cell-item>
+          <yd-cell-item type="checkbox">
+            <span slot="left">2016</span>
+            <input slot="right" type="checkbox" value="2016" v-model="checkedNames4"/>
+          </yd-cell-item>
+          <yd-cell-item type="checkbox">
+            <span slot="left">2015</span>
+            <input slot="right" type="checkbox" value="2015" v-model="checkedNames4"/>
+          </yd-cell-item>
+        </yd-accordion-item>
+        <yd-accordion-item title="商品季节" open>
+          <yd-cell-item type="checkbox">
+            <span slot="left">春</span>
+            <input slot="right" type="checkbox" value="春" v-model="checkedNames5"/>
+          </yd-cell-item>
+          <yd-cell-item type="checkbox">
+            <span slot="left">夏</span>
+            <input slot="right" type="checkbox" value="夏" v-model="checkedNames5"/>
+          </yd-cell-item>
+          <yd-cell-item type="checkbox">
+            <span slot="left">秋</span>
+            <input slot="right" type="checkbox" value="秋" v-model="checkedNames5"/>
+          </yd-cell-item>
+          <yd-cell-item type="checkbox">
+            <span slot="left">冬</span>
+            <input slot="right" type="checkbox" value="冬" v-model="checkedNames5"/>
+          </yd-cell-item>
+        </yd-accordion-item>
+      </yd-accordion>
+      <yd-button size="large" type="danger" @click.native="show4 = false" class="closed">关闭搜索</yd-button>
     </yd-popup>
   </div>
 </template>
@@ -36,7 +112,8 @@
         msg: 'top name',
         show3: false,
         show4: false,
-        datetime2: '2018-03-29',
+        datetime1: '2018-01-20',
+        datetime2: '2018-03-28',
         siderbar: [
           {name: '零售主体', link: 'lszt'},
           {name: '销售主题', link: 'xszt'},
@@ -44,7 +121,11 @@
           {name: '门店主题', link: 'a'},
           {name: '会员主题', link: 'a'},
           {name: '企划主题', link: 'a'}
-        ]
+        ],
+        jxs: [],
+        checkedNames4:[],
+        checkedNames5:[],
+        checkedNames3:[]
       }
     },
     methods: {
@@ -85,8 +166,8 @@
     line-height: 40px;
   }
   .closed{
-    position: absolute;
-    bottom: 0;
+    border-radius: 0;
+    height: 50px;
   }
 
   .silderbar-c{
@@ -104,4 +185,6 @@
     height: 40px;
     line-height: 40px;
   }
+
+
 </style>
